@@ -21,7 +21,7 @@ def _get_config(config_path: Path | None = None):
     errors = cfg.validate()
     if errors:
         for e in errors:
-            console.print(f"[yellow]⚠[/yellow] {e}")
+            console.print(f"[yellow]![/yellow] {e}")
     return cfg
 
 
@@ -32,7 +32,7 @@ def login(
     """测试登录清华统一身份认证。"""
     cfg = _get_config(config_path)
     if not cfg.username or not cfg.password:
-        console.print("[red]✗[/red] 未配置用户名或密码")
+        console.print("[red]X[/red] 未配置用户名或密码")
         raise typer.Exit(1)
 
     state = load_state()
@@ -48,15 +48,15 @@ def login(
         except TwoFactorRequiredError:
             console.print("[yellow]需要二次认证[/yellow]")
             auth = do_login(cfg.username, cfg.password, fingerprint=fp, finger3=f3)
-        console.print(f"[green]✓[/green] 登录成功，CSRF token: {auth.csrf_token[:16]}...")
+        console.print(f"[green]OK[/green] 登录成功，CSRF token: {auth.csrf_token[:16]}...")
 
         if auth.fingerprint or auth.finger3:
             state["fingerprint"] = auth.fingerprint or fp
             state["finger3"] = auth.finger3 or f3
             save_state(state)
-            console.print("[green]✓[/green] 信任设备信息已保存")
+            console.print("[green]OK[/green] 信任设备信息已保存")
     except ThuCalSyncError as e:
-        console.print(f"[red]✗[/red] 登录失败: {e}")
+        console.print(f"[red]X[/red] 登录失败: {e}")
         raise typer.Exit(1)
 
 
@@ -85,14 +85,14 @@ def sync(
     if fp and f3:
         console.print("  使用已保存的信任设备信息...")
     auth = do_login(cfg.username, cfg.password, fingerprint=fp, finger3=f3)
-    console.print("[green]✓[/green] 登录成功")
+    console.print("[green]OK[/green] 登录成功")
 
     if auth.fingerprint or auth.finger3:
         state["fingerprint"] = auth.fingerprint or fp
         state["finger3"] = auth.finger3 or f3
         save_state(state)
         if not fp:
-            console.print("[green]✓[/green] 信任设备信息已保存（下次登录将跳过 2FA）")
+            console.print("[green]OK[/green] 信任设备信息已保存（下次登录将跳过 2FA）")
 
     if not start or not end:
         console.print("正在获取学期信息...")
@@ -105,7 +105,7 @@ def sync(
     console.print(f"正在获取课表 ({start} → {end})...")
     from thu_calendar_sync.fetcher import fetch_calendar
     events = fetch_calendar(auth, start, end, cfg.graduate)
-    console.print(f"[green]✓[/green] 获取到 {len(events)} 条课程事件")
+    console.print(f"[green]OK[/green] 获取到 {len(events)} 条课程事件")
 
     if events:
         table = Table(title="课程事件预览", show_lines=False)
@@ -132,7 +132,7 @@ def sync(
     console.print(f"\n正在生成 .ics 文件...")
     from thu_calendar_sync.ics_writer import save_ics
     save_ics(events, output_file, semester_label=f"{start}~{end}", reminder_minutes=reminder)
-    console.print(f"[green]✓[/green] 已生成 {len(events)} 条事件")
+    console.print(f"[green]OK[/green] 已生成 {len(events)} 条事件")
     console.print(f"  文件: [cyan]{output_file}[/cyan]")
     console.print(f"\n双击 [cyan]{output_file.name}[/cyan] 即可导入到日历应用")
 
@@ -141,7 +141,7 @@ def sync(
         try:
             from thu_calendar_sync.outlook import sync_events_to_outlook
             count = sync_events_to_outlook(events, cfg.calendar_account, start, end)
-            console.print(f"[green]✓[/green] 已同步 {count} 条事件到 Outlook")
+            console.print(f"[green]OK[/green] 已同步 {count} 条事件到 Outlook")
         except ImportError:
             console.print("[yellow]⚠ Outlook 写入需要 Windows + Outlook 桌面版，当前环境不支持[/yellow]")
         except OutlookError as e:
