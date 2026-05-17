@@ -1,0 +1,9 @@
+[Auth]
+username = ""      # 学号，留空则从 .env 读取 THU_USERNAME
+password = ""      # 密码，留空则从 .env 读取 THU_PASSWORD
+
+[Calendar]
+graduate = false                   # false=本科(bks), true=研究生(yjs)
+semester_start = ""                # 留空则自动获取当前学期
+semester_end = ""                  # 留空则自动获取当前学期
+calendar_account = "qq.com"        # Outlook 中 QQ 邮箱账户的关键字匹配
