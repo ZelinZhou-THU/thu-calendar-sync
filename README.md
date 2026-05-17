@@ -14,7 +14,7 @@
 ## 安装
 
 ```bash
-git clone https://github.com/<your>/thu-calendar-sync.git
+git clone https://github.com/ZelinZhou-THU/thu-calendar-sync.git
 cd thu-calendar-sync
 pip install .
 ```

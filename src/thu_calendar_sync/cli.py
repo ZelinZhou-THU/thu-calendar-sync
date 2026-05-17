@@ -143,9 +143,9 @@ def sync(
             count = sync_events_to_outlook(events, cfg.calendar_account, start, end)
             console.print(f"[green]OK[/green] 已同步 {count} 条事件到 Outlook")
         except ImportError:
-            console.print("[yellow]⚠ Outlook 写入需要 Windows + Outlook 桌面版，当前环境不支持[/yellow]")
+            console.print("[yellow]! Outlook 写入需要 Windows + Outlook 桌面版，当前环境不支持[/yellow]")
         except OutlookError as e:
-            console.print(f"[yellow]⚠ Outlook 写入失败: {e}[/yellow]")
+            console.print(f"[yellow]! Outlook 写入失败: {e}[/yellow]")
 
 
 @app.command()
