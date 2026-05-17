@@ -10,7 +10,7 @@ from rich.table import Table
 from rich.panel import Panel
 
 from thu_calendar_sync.config import load_config, load_state, save_state
-from thu_calendar_sync.exceptions import ThuCalSyncError
+from thu_calendar_sync.exceptions import ThuCalSyncError, OutlookError
 
 app = typer.Typer(name="thu-cal", help="清华课表同步工具")
 console = Console()
@@ -67,9 +67,10 @@ def sync(
     graduate: Annotated[bool, typer.Option("--graduate")] = False,
     reminder: Annotated[Optional[int], typer.Option("--reminder", "-r", help="提前提醒分钟数")] = None,
     dry_run: Annotated[bool, typer.Option("--dry-run/--execute")] = True,
+    outlook: Annotated[bool, typer.Option("--outlook", help="直接写入 Outlook 日历（实验性）")] = False,
     config_path: Annotated[Optional[Path], typer.Option("--config", "-c")] = None,
 ):
-    """同步课表到日历。默认 dry-run 模式。"""
+    """同步课表到日历。默认 dry-run 模式。使用 --outlook 可直接写入 Outlook 日历（实验性）。"""
     cfg = _get_config(config_path)
     if graduate:
         cfg.graduate = True
@@ -134,6 +135,17 @@ def sync(
     console.print(f"[green]✓[/green] 已生成 {len(events)} 条事件")
     console.print(f"  文件: [cyan]{output_file}[/cyan]")
     console.print(f"\n双击 [cyan]{output_file.name}[/cyan] 即可导入到日历应用")
+
+    if outlook:
+        console.print("\n正在写入 Outlook 日历（实验性）...")
+        try:
+            from thu_calendar_sync.outlook import sync_events_to_outlook
+            count = sync_events_to_outlook(events, cfg.calendar_account, start, end)
+            console.print(f"[green]✓[/green] 已同步 {count} 条事件到 Outlook")
+        except ImportError:
+            console.print("[yellow]⚠ Outlook 写入需要 Windows + Outlook 桌面版，当前环境不支持[/yellow]")
+        except OutlookError as e:
+            console.print(f"[yellow]⚠ Outlook 写入失败: {e}[/yellow]")
 
 
 @app.command()

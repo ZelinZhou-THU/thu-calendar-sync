@@ -36,11 +36,21 @@ THU_USERNAME=你的学号
 THU_PASSWORD=你的密码
 ```
 
+注意：研究生/本科生身份需在 `thu-cal.toml` 中配置，不支持通过 `.env` 设置。
+
 ### 方式二：配置文件
 
-复制 `thu-cal.toml.example` 为 `thu-cal.toml` 并按需修改。
+复制 `thu-cal.toml.example` 为 `thu-cal.toml` 并按需修改：
+
+```toml
+[Calendar]
+graduate = false            # false = 本科生, true = 研究生
+calendar_account = "qq.com" # Outlook 账户关键字（实验性，仅 Windows）
+```
 
 配置优先级：`.env` 中的值覆盖 `thu-cal.toml` 中留空的字段。
+
+完整可配置项见 `thu-cal.toml.example`。
 
 ## 使用
 
@@ -64,7 +74,15 @@ thu-cal sync --execute --start 2026-02-17 --end 2026-07-01
 
 # 设置课前提醒（20 分钟前）
 thu-cal sync --execute --reminder 20
+
+# 以研究生身份同步
+thu-cal sync --execute --graduate
+
+# 直接写入 Outlook 日历（实验性，仅 Windows + Outlook 桌面版）
+thu-cal sync --execute --outlook
 ```
+
+> **注意**：`--outlook` 功能仍在测试中，并不保证在所有环境下正常工作。仅支持 Windows + Outlook 桌面版。
 
 ### 查看状态
 
