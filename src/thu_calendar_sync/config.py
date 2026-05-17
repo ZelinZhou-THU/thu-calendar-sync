@@ -9,7 +9,7 @@ import tomllib
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(Path.cwd() / ".env")
 
 CONFIG_FILENAME = "thu-cal.toml"
 STATE_FILENAME = "thu-cal-state.json"
