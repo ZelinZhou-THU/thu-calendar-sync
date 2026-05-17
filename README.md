@@ -1,14 +1,14 @@
 # thu-calendar-sync
 
-清华课表 → Outlook 日历 / ICS 文件同步工具
+清华课表同步工具
 
 ## 功能
 
 - 通过清华统一身份认证自动登录（支持 SM2 加密、二次认证、信任设备）
 - 自动获取当前学期起止日期
 - 获取本科生或研究生课程表
-- 生成标准 ICS 文件，可直接导入任意日历应用（Outlook、Google Calendar、Apple Calendar 等）
-- 支持直接写入 Outlook 日历（Windows + Outlook 桌面版）
+- 生成标准 ICS 文件，可直接导入任意日历应用
+- 支持直接写入 Outlook 日历（Windows + Outlook 桌面版，可选）
 - 支持课前提醒设置
 
 ## 安装
@@ -81,8 +81,8 @@ python -m thu_calendar_sync sync --execute --reminder 20
 ## 依赖
 
 - Python >= 3.12
+- ICS 文件生成模式通用（导入任意日历应用）
 - Windows + Outlook 桌面版（可选，用于直接写入日历）
-- ICS 文件生成模式无需 Outlook
 
 ## 许可证
 

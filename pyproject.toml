@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "thu-calendar-sync"
 version = "0.1.0"
-description = "Sync Tsinghua course schedule to Outlook calendar"
+description = "Sync Tsinghua course schedule to calendar (ICS / Outlook)"
 requires-python = ">=3.12"
 dependencies = [
     "typer>=0.25.0",
