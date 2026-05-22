@@ -1,4 +1,4 @@
-# thu-calendar-sync
+# THU Calendar Sync — Tsinghua Course Sync to Calendar
 
 > Sync your Tsinghua course schedule to any calendar app. Auto-login via university SSO, fetch semester course schedule, and generate ICS files or write directly to Outlook.
 

@@ -1,4 +1,4 @@
-# thu-calendar-sync
+# THU Calendar Sync — 清华课表同步到日历
 
 > **清华课表一键同步到日历。** 自动登录统一身份认证，获取学期课表，生成 ICS 文件或直接写入 Outlook。支持 SM2 加密、二次认证、研究生/本科生课表。
 
